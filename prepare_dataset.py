@@ -60,7 +60,7 @@ df = pd.DataFrame(dataset_labels)
 csv_path = "dataset.csv"
 df.to_csv(csv_path, index=False)
 
-print(f"\n🎉 Success! Converted {len(df)} images.")
+print(f"\nSuccess! Converted {len(df)} images.")
 print(f"Check the '{output_folder}' folder for your images and '{csv_path}' for your labels.")
 print("\nHere is a peek at your AI's new training data:")
 print(df.head())
