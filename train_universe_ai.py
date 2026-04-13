@@ -69,7 +69,7 @@ class UniverseMedicalAI(nn.Module):
 # 3. THE TRAINING LOOP & FINAL EXAM
 # ==========================================
 def train_model():
-    print("🚀 Loading Universe Data (37,000+ Images)...")
+    print("Loading Universe Data (37,000+ Images)...")
     
     # 1. Load Data
     df = pd.read_csv("universe_dataset.csv")
@@ -79,7 +79,7 @@ def train_model():
     df['BodyPart'] = df['BodyPart'].fillna('UNKNOWN').astype(str).str.upper()
     df['ImagePlane'] = df['ImagePlane'].fillna('UNKNOWN').astype(str)
     
-    # 🚨 SEMANTIC MERGING: Fix the rare classes by merging them into parent anatomies 🚨
+    # SEMANTIC MERGING: Fix the rare classes by merging them into parent anatomies
     df['BodyPart'] = df['BodyPart'].replace({
         'LUNG': 'CHEST',
         'TSPINE': 'CHEST',
@@ -129,15 +129,15 @@ def train_model():
     body_weights = get_safe_weights(train_df['BodyPart_Encoded'].values, len(le_body.classes_))
     plane_weights = get_safe_weights(train_df['Plane_Encoded'].values, len(le_plane.classes_))
     
-    # 🍏 APPLE SILICON HARDWARE ACTIVATION
+    # APPLE SILICON HARDWARE ACTIVATION
     if torch.backends.mps.is_available():
         device = torch.device("mps")
-        print("🍏 Apple M1 Max GPU detected! Using Metal Performance Shaders.")
+        print("Apple M1 Max GPU detected! Using Metal Performance Shaders.")
     elif torch.cuda.is_available():
         device = torch.device("cuda")
     else:
         device = torch.device("cpu")
-        print("⚠️ Warning: No GPU found. Using CPU.")
+        print("Warning: No GPU found. Using CPU.")
 
     tensor_body_weights = torch.tensor(body_weights, dtype=torch.float32).to(device)
     tensor_plane_weights = torch.tensor(plane_weights, dtype=torch.float32).to(device)
@@ -174,7 +174,7 @@ def train_model():
     epochs = 20
     best_val_loss = float('inf')
     
-    print(f"🤖 Starting Training on {device}...\n")
+    print(f"Starting Training on {device}...\n")
     print(f"{'Epoch':<6} | {'Val Loss':<10} | {'Modality':<10} | {'BodyPart':<10} | {'Plane':<10}")
     print("-" * 60)
     
@@ -230,7 +230,7 @@ def train_model():
     # THE FINAL EXAM (TEST SET EVALUATION)
     # ==========================================
     print("\n" + "="*50)
-    print("🎓 INITIATING FINAL EXAM ON SECRET TEST SET")
+    print("INITIATING FINAL EXAM ON SECRET TEST SET")
     print("="*50)
     
     model.load_state_dict(torch.load("universe_4task_ai.pth", weights_only=True))
@@ -248,7 +248,7 @@ def train_model():
             test_corr_plane += (torch.argmax(pred_plane, dim=1) == plane).sum().item()
             test_total += mod.size(0)
 
-    print(f"\n✅ Final Exam Accuracy:")
+    print(f"\nFinal Exam Accuracy:")
     print(f"  Modality  : {(test_corr_mod / test_total) * 100:.2f}%")
     print(f"  Body Part : {(test_corr_body / test_total) * 100:.2f}%")
     print(f"  Image Plane: {(test_corr_plane / test_total) * 100:.2f}%\n")
