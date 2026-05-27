@@ -1,0 +1,21 @@
+# Core geometry / analysis engine (CPU-only, runs anywhere)
+numpy>=1.23
+scipy>=1.9
+scikit-image>=0.20
+nibabel>=5.0
+SimpleITK>=2.2          # DICOM -> NIfTI conversion (stage 01)
+trimesh>=3.21           # mesh utilities
+numpy-stl>=3.0          # STL export (stage 06)
+pandas>=1.5
+openpyxl>=3.1           # Excel report (stage 08)
+matplotlib>=3.6         # headless 3D render (stage 08 / demo)
+
+# Optional but recommended -- higher-quality TEASAR centerlines (RibSeg v2 style).
+# Falls back to a scipy thinning + graph-diameter centerline if absent.
+kimimaro>=3.0
+
+# --- Deep-learning segmentation (stage 02) -- install on a CUDA GPU machine ---
+# TotalSegmentator pulls in torch + nnU-Net and downloads model weights on first
+# run, so it is intentionally NOT pinned here. Install separately:
+#     pip install TotalSegmentator
+# or use the SlicerTotalSegmentator extension (see slicer/slicer_pipeline.py).
